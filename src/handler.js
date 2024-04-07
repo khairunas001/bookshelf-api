@@ -1,6 +1,7 @@
 const { nanoid } = require('nanoid');
 const books = require('./books');
 
+// ----------------------------fitur menambahkan buku------------------------
 const addBookHandler = (request, h) => {
   const {
     name, year, author, summary, publisher, pageCount, readPage, reading,
@@ -71,16 +72,19 @@ const addBookHandler = (request, h) => {
   return response;
 };
 
+// -------------------------------------------fitur menampilkan seluruh buku------------------------
 const getAllBooksHandler = (request, h) => {
   const { name, reading, finished } = request.query;
 
   let filteredBooks = books;
 
+  // kondisi ini berfungsi untuk menfilter nama dengan dengan menjadikan huruf kecil
   if (name !== undefined) {
     filteredBooks = filteredBooks.filter((book) => book
       .name.toLowerCase().includes(name.toLowerCase()));
   }
-
+  // kondisi ini berfungsi untuk memeriksa dengan melakukan filterng membandingkan book.reading
+  // dan book finished dengan nilai true atau false
   if (reading !== undefined) {
     filteredBooks = filteredBooks.filter((book) => book.reading === !!Number(reading));
   }
@@ -104,6 +108,7 @@ const getAllBooksHandler = (request, h) => {
   return response;
 };
 
+// -------------------------------------------fitur menampilkan detail buku------------------------
 const getBookByIdHandler = (request, h) => {
   const { id } = request.params;
   const book = books.filter((b) => b.id === id)[0];
@@ -126,6 +131,7 @@ const getBookByIdHandler = (request, h) => {
   return response;
 };
 
+// -----------------mengedit buku------------------------
 const editBookByIdHandler = (request, h) => {
   const { id } = request.params;
   const {
@@ -189,6 +195,7 @@ const editBookByIdHandler = (request, h) => {
   return response;
 };
 
+// ---------------------fitur dhapus buku---------------
 const deleteBookByIdHandler = (request, h) => {
   const { id } = request.params;
 
